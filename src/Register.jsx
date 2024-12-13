@@ -1,12 +1,51 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [role, setRole] = useState("user");
+  const [role, setRole] = useState("customers");
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (password !== confirmPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
+    const jsonData = {
+      data: {
+        name: name,
+        email: email,
+        password: password,
+      }
+    }
+    const jsonString = JSON.stringify(jsonData);
+    try {
+      const response = await fetch("http://localhost:1337/api/customers", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: jsonString,
+      });
+      if (response.ok) {
+        const data = await response.json();
+        alert("Registration successful!");
+        navigate("/");
+      } else {
+        const errorData = await response.text(); 
+        alert("Registration failed!");
+        console.error(errorData);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("An error occurred while registering!");
+    }
+  };
 
   return (
     <div className="flex justify-center items-center min-h-screen ">
@@ -16,11 +55,15 @@ const Register = () => {
             Register
           </a>
         </div>
-        <form>
-          <div className="mb-2">
+        <form onSubmit={handleSubmit}>
+        <div className="mb-2">
             <input
-              type="file"
+              type="text"
+              id="name"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-200"
+              placeholder="Enter your name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               required
             />
           </div>
@@ -77,8 +120,8 @@ const Register = () => {
               value={role}
               onChange={(e) => setRole(e.target.value)}
             >
-              <option value="user">User</option>
-              <option value="admin">Admin</option>
+              <option value="customers">Customer</option>
+              <option value="admins">Admin</option>
             </select>
             <button
               type="submit"

@@ -6,7 +6,7 @@ import Products from "./Products";
 import History from "./History";
 import Branches from "./Branches";
 import Cart from "./Cart";
-
+import AdminDashboard from "./AdminDashboard";
 function App() {
   return (
     <>
@@ -18,6 +18,7 @@ function App() {
         <Route path="/history" element={<History />} />
         <Route path="/branches" element={<Branches />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/admin" element={<AdminDashboard />} />
       </Routes>
     </>
   );

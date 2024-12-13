@@ -1,34 +1,148 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaTrash } from "react-icons/fa";
 import Navigation from "./Navigation";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
-  const [cart, setCart] = useState([
-    { id: 1, name: "Product 1", price: 29.99, quantity: 2 },
-    { id: 2, name: "Product 2", price: 19.99, quantity: 1 },
-  ]);
+  const userDetails = JSON.parse(sessionStorage.getItem("user"));
+  const [cart, setCart] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
+  const [selectAll, setSelectAll] = useState(false);
+  const navigate = useNavigate();
 
-  // Toggle item selection
-  const toggleSelection = (productId) => {
-    if (selectedItems.includes(productId)) {
-      setSelectedItems(selectedItems.filter((id) => id !== productId));
-    } else {
-      setSelectedItems([...selectedItems, productId]);
+  useEffect(() => {
+    fetchCartItems();
+  }, []);
+
+  const fetchCartItems = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:1337/api/carts?filters[user_name][$eq]=${userDetails.name}&_limit=1000`
+      );
+      if (response.ok) {
+        const data = await response.json();
+        setCart(data.data);
+      } else {
+        console.error("Failed to fetch cart items");
+      }
+    } catch (error) {
+      console.error("Error fetching cart items:", error);
     }
   };
 
-  // Remove item from cart
-  const removeFromCart = (productId) => {
-    setCart(cart.filter((item) => item.id !== productId));
-    setSelectedItems(selectedItems.filter((id) => id !== productId));
+  const toggleSelection = (productId) => {
+    setSelectedItems((prevSelectedItems) =>
+      prevSelectedItems.includes(productId)
+        ? prevSelectedItems.filter((id) => id !== productId)
+        : [...prevSelectedItems, productId]
+    );
   };
 
-  // Calculate total price
-  const totalPrice = selectedItems.reduce((sum, id) => {
-    const item = cart.find((product) => product.id === id);
-    return item ? sum + item.price * item.quantity : sum;
-  }, 0);
+  const handleSelectAll = () => {
+    if (selectAll) {
+      setSelectedItems([]);
+    } else {
+      setSelectedItems(cart.map((item) => item.id));
+    }
+    setSelectAll(!selectAll);
+  };
+
+  const removeFromCart = async (item) => {
+    try {
+      const response = await fetch(
+        `http://localhost:1337/api/carts/${item.documentId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (response.ok) {
+        setCart((prevCart) => prevCart.filter((cartItem) => cartItem.id !== item.id));
+        setSelectedItems((prevSelectedItems) =>
+          prevSelectedItems.filter((id) => id !== item.id)
+        );
+      } else {
+        console.error("Failed to delete item");
+      }
+    } catch (error) {
+      console.error("Error removing item from cart:", error);
+    }
+  };
+
+  const handleCheckout = async (e) => {
+    e.preventDefault();
+
+    const today = new Date();
+    const formattedDate = today.toISOString().split("T")[0];
+    const selectedCartItems = cart.filter((item) =>
+      selectedItems.includes(item.id)
+    );
+
+    for (const item of selectedCartItems) {
+      const cartData = {
+        data: {
+          product_name: item.product_name,
+          quantity: item.quantity,
+          total: item.price * item.quantity,
+          customer_name: item?.user_name || "Guest",
+          date: formattedDate,
+          branch_name: item.branch_name,
+        },
+      };
+
+      try {
+        const response = await fetch("http://localhost:1337/api/transactions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(cartData),
+        });
+
+        if (!response.ok) {
+          const errorData = await response.text();
+          console.error("Failed to add item:", errorData);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+
+    handleDelete(selectedCartItems);
+  };
+
+  const handleDelete = async (items) => {
+    for (const item of items) {
+      try {
+        const response = await fetch(
+          `http://localhost:1337/api/carts/${item.documentId}`,
+          {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (!response.ok) {
+          const errorData = await response.text();
+          console.error(`Failed to delete item with id ${item.id}:`, errorData);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+    alert("Checkout successful");
+    window.location.reload();
+  };
+
+  const totalPrice = cart.reduce(
+    (acc, item) =>
+      selectedItems.includes(item.id) ? acc + item.price * item.quantity : acc,
+    0
+  );
 
   return (
     <>
@@ -63,13 +177,13 @@ const Cart = () => {
                         className="checkbox"
                       />
                     </td>
-                    <td>{item.name}</td>
+                    <td>{item.product_name}</td>
                     <td>${item.price.toFixed(2)}</td>
                     <td>{item.quantity}</td>
                     <td>${(item.price * item.quantity).toFixed(2)}</td>
                     <td>
                       <button
-                        onClick={() => removeFromCart(item.id)}
+                        onClick={() => removeFromCart(item)}
                         className="btn btn-error btn-xs text-white"
                       >
                         <FaTrash />
@@ -86,7 +200,10 @@ const Cart = () => {
           <p className="text-lg font-bold text-[#4B3D8F]">
             Total: ${totalPrice.toFixed(2)}
           </p>
-          <button className="btn btn-primary mt-4 text-white">
+          <button
+            className="btn btn-primary mt-4 text-white"
+            onClick={handleCheckout}
+          >
             Proceed to Checkout
           </button>
         </div>

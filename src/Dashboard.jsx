@@ -20,7 +20,7 @@ function UserDashboard() {
                 </p>
                 <Link to="/branches">
                   <button className="bg-green-700 hover:bg-green-600 mt-8 text-white px-8 py-3 text-lg rounded-md flex gap-2">
-                    See Products
+                    Browse Branches
                     <FaArrowRightLong className="mt-1" />
                   </button>
                 </Link>
