@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-function SignUp() {
+const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -12,16 +12,23 @@ function SignUp() {
     <div className="flex justify-center items-center min-h-screen ">
       <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-sm border">
         <div className="flex justify-center mb-6">
-          <a href="/" className="text-3xl font-bold text-[#4B3D8F]">
+          <a href="/" className="text-3xl font-bold text-green-700">
             Register
           </a>
         </div>
         <form>
           <div className="mb-2">
             <input
+              type="file"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-200"
+              required
+            />
+          </div>
+          <div className="mb-2">
+            <input
               type="email"
               id="email"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-customGreen"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-200"
               placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -32,7 +39,7 @@ function SignUp() {
             <input
               type={showPassword ? "text" : "password"}
               id="password"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-customGreen"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-200"
               placeholder="Enter your password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -43,7 +50,7 @@ function SignUp() {
             <input
               type={showPassword ? "text" : "password"}
               id="confirmPassword"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-customGreen"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-200"
               placeholder="Confirm your password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
@@ -66,7 +73,7 @@ function SignUp() {
           <div className="mb-4 flex gap-2">
             <select
               id="role"
-              className="w-1/2 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-customGreen"
+              className="w-1/2 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-200"
               value={role}
               onChange={(e) => setRole(e.target.value)}
             >
@@ -75,7 +82,7 @@ function SignUp() {
             </select>
             <button
               type="submit"
-              className="w-full py-2 bg-[#4B3D8F] text-white rounded-lg hover:bg-[#4B3D8F] focus:outline-none"
+              className="w-full py-2 bg-green-700 text-white rounded-lg hover:bg-green-700 focus:outline-none"
             >
               Sign up
             </button>
@@ -87,7 +94,7 @@ function SignUp() {
             <Link to="/">
               <button
                 type="submit"
-                className="w-full py-2 text-white rounded-lg bg-[#4B3D8F]"
+                className="w-full py-2 text-white rounded-lg bg-green-700"
               >
                 Login instead
               </button>
@@ -97,6 +104,6 @@ function SignUp() {
       </div>
     </div>
   );
-}
+};
 
-export default SignUp;
+export default Register;

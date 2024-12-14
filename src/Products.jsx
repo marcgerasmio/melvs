@@ -132,17 +132,8 @@ function Products() {
         <div className="container mx-auto px-8">
           <div className="mb-8 text-end">
             <div className="flex justify-between gap-4">
-              <h1 className="text-2xl font-bold">| Our Products</h1>
+              <h1 className="text-2xl font-bold text-yellow-500">Products</h1>
               <div className="flex gap-3">
-                <select
-                  onChange={(e) => setSelectedBranch(e.target.value)}
-                  className="border border-[#4B3D8F] rounded-md p-2"
-                >
-                  <option value="">Select Branch</option>
-                  <option value="branch1">Branch 1</option>
-                  <option value="branch2">Branch 2</option>
-                  <option value="branch3">Branch 3</option>
-                </select>
                 <select
                   onChange={(e) => setSelectedCategory(e.target.value)}
                   className="border border-[#4B3D8F] rounded-md p-2"

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-function SignIn() {
+const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -11,7 +11,7 @@ function SignIn() {
     <div className="flex justify-center items-center min-h-screen">
       <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-sm border">
         <div className="flex justify-center mb-6">
-          <a href="/" className="text-3xl font-bold text-[#4B3D8F]">
+          <a href="/" className="text-3xl font-bold text-green-700">
             Login
           </a>
         </div>
@@ -20,7 +20,7 @@ function SignIn() {
             <input
               type="email"
               id="email"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-customGreen"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-200"
               placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -31,7 +31,7 @@ function SignIn() {
             <input
               type={showPassword ? "text" : "password"}
               id="password"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-customGreen"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-200"
               placeholder="Enter your password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -41,7 +41,7 @@ function SignIn() {
           <div className="mb-4">
             <select
               id="role"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-customGreen"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-200"
               value={role}
               onChange={(e) => setRole(e.target.value)}
             >
@@ -64,7 +64,7 @@ function SignIn() {
           <div className="mb-4">
             <button
               type="submit"
-              className="w-full py-2 text-white rounded-lg bg-[#4B3D8F]"
+              className="w-full py-2 text-white rounded-lg bg-green-700"
             >
               Sign in
             </button>
@@ -73,10 +73,10 @@ function SignIn() {
             or
           </div>
           <div className="text-center">
-            <Link to="/signup">
+            <Link to="/register">
               <button
                 type="submit"
-                className="w-full py-2 text-white rounded-lg bg-[#4B3D8F]"
+                className="w-full py-2 text-white rounded-lg bg-green-700"
               >
                 Create an Account
               </button>
@@ -86,6 +86,6 @@ function SignIn() {
       </div>
     </div>
   );
-}
+};
 
-export default SignIn;
+export default Login;

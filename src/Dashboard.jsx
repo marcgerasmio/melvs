@@ -7,22 +7,31 @@ function UserDashboard() {
     <div className="min-h-screen flex flex-col">
       <Navigation />
       <main className="flex-grow">
-        <section className="flex items-center justify-center min-h-[calc(100vh-5rem)] overflow-hidden">
-          <div className="container mx-auto px-8">
-            <div className="text-center space-y-6">
-              <h1 className="text-5xl lg:text-6xl font-bold text-[#4B3D8F] leading-tight">
-                Discover Happiness, Delivered to Your Doorstep....
-              </h1>
-              <p className="text-lg text-gray-600 max-w-lg mx-auto">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                eiusmod tempor incididunt.
-              </p>
-              <Link to="/products">
-                <button className="bg-[#4B3D8F] hover:bg-[#3D2F7F] mt-8 text-white px-8 py-3 text-lg rounded-md flex gap-2 mx-auto">
-                  Browse Products
-                  <FaArrowRightLong className="mt-1" />
-                </button>
-              </Link>
+        <section className="relative min-h-[calc(100vh-5rem)] overflow-hidden">
+          <div className="container mx-auto px-8 h-full">
+            <div className="grid lg:grid-cols-2 gap-8 items-center h-full">
+              <div className="space-y-6">
+                <h1 className="text-5xl lg:text-6xl font-bold text-yellow-600 leading-tight">
+                  Shop Smart, Live Better...
+                </h1>
+                <p className="text-lg text-gray-600 max-w-lg">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
+                  do eiusmod tempor incididunt.
+                </p>
+                <Link to="/branches">
+                  <button className="bg-green-700 hover:bg-green-600 mt-8 text-white px-8 py-3 text-lg rounded-md flex gap-2">
+                    See Products
+                    <FaArrowRightLong className="mt-1" />
+                  </button>
+                </Link>
+              </div>
+              <div className="relative h-[500px]">
+                <img
+                  src="img.jpg"
+                  alt="Gift box with various items"
+                  className="object-contain w-full mt-5"
+                />
+              </div>
             </div>
           </div>
         </section>
