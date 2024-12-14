@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Cart from "./Cart";
 
-const Navbar = () => {
+const Navigation = () => {
   const [isCartVisible, setCartVisible] = useState(false);
 
   const handleCartClick = () => setCartVisible(true);
@@ -9,22 +9,13 @@ const Navbar = () => {
 
   return (
     <>
-      <header className="border-b bg-gradient-to-br from-[#FFE4E1] to-[#FFC0CB]">
+      <header className="border-b">
         <div className="container mx-auto px-4 h-20 flex items-center justify-between">
           <a href="/dashboard" className="text-2xl font-bold text-[#4B3D8F]">
-            REGALO
-            <span className="block text-xs text-center">GIFT SHOP</span>
+            Sample Site
           </a>
           <nav className="hidden md:block">
             <ul className="flex space-x-6">
-              <li>
-                <a
-                  href="/branches"
-                  className="text-[#4B3D8F] font-bold hover:underline"
-                >
-                  Branches
-                </a>
-              </li>
               <li>
                 <a
                   href="/history"
@@ -72,4 +63,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default Navigation;

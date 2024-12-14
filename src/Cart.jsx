@@ -72,7 +72,7 @@ const Cart = ({ onClose }) => {
           cart.map((item) => (
             <div
               key={item.id}
-              className="flex items-center justify-between bg-gradient-to-br from-[#FFE4E1] to-[#FFC0CB] p-4 rounded-md shadow"
+              className="flex items-center justify-between p-4 rounded-md shadow"
             >
               <input
                 type="checkbox"

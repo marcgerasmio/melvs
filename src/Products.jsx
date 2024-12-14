@@ -1,8 +1,7 @@
 import { useState } from "react";
-import Navbar from "./Navbar";
-import Footer from "./Footer";
+import Navigation from "./Navigation";
 
-function ProductList() {
+function Products() {
   const products = [
     {
       id: 1,
@@ -128,28 +127,40 @@ function ProductList() {
 
   return (
     <>
-      <Navbar />
+      <Navigation />
       <section className="bg-base-100 py-8">
         <div className="container mx-auto px-8">
-          <h2 className="text-3xl font-bold text-center text-[#4B3D8F] mb-8">
-            (branch nga napili)
-          </h2>
-
-          <div className="mb-8 text-center">
-            <input
-              type="text"
-              placeholder="Search products..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="border border-[#4B3D8F] rounded-md p-2 w-full md:w-1/2 lg:w-1/3"
-            />
+          <div className="mb-8 text-end">
+            <div className="flex justify-between gap-4">
+              <h1 className="text-2xl font-bold">| Our Products</h1>
+              <div className="flex gap-3">
+                <select
+                  onChange={(e) => setSelectedBranch(e.target.value)}
+                  className="border border-[#4B3D8F] rounded-md p-2"
+                >
+                  <option value="">Select Branch</option>
+                  <option value="branch1">Branch 1</option>
+                  <option value="branch2">Branch 2</option>
+                  <option value="branch3">Branch 3</option>
+                </select>
+                <select
+                  onChange={(e) => setSelectedCategory(e.target.value)}
+                  className="border border-[#4B3D8F] rounded-md p-2"
+                >
+                  <option value="">Select Category</option>
+                  <option value="electronics">Electronics</option>
+                  <option value="fashion">Fashion</option>
+                  <option value="home-decor">Home Decor</option>
+                </select>
+              </div>
+            </div>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             {filteredProducts.map((product) => (
               <div
                 key={product.id}
-                className="p-6 bg-gradient-to-br from-[#FFE4E1] to-[#FFC0CB] rounded-lg shadow-md hover:shadow-lg transition-shadow"
+                className="p-6 rounded-lg shadow-xl border hover:shadow-lg transition-shadow"
               >
                 <img
                   src={product.image}
@@ -186,7 +197,6 @@ function ProductList() {
           </div>
         </div>
       </section>
-      <Footer />
 
       {/* Modal for Checkout */}
       {isModalVisible && selectedProduct && (
@@ -248,42 +258,8 @@ function ProductList() {
           </div>
         </div>
       )}
-
-      {/* Confirmation Modal */}
-      {isConfirmationModalVisible && selectedProduct && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg shadow-lg w-11/12 md:w-1/2 p-6 relative">
-            <button
-              onClick={handleCloseConfirmationModal}
-              className="absolute top-4 right-4 text-[#4B3D8F] font-bold"
-            >
-              ✕
-            </button>
-            <p className="text-2xl font-bold text-green-500 mb-2">
-              Your order has been successfully placed!
-            </p>
-            <div className="bg-gradient-to-br from-[#FFE4E1] to-[#FFC0CB] p-4 rounded-md">
-              <h4 className="text-lg font-semibold text-[#4B3D8F] mb-2">
-                {selectedProduct.name}
-              </h4>
-              <p className="text-sm font-bold text-[#4B3D8F] mb-2">
-                Price: {selectedProduct.price}
-              </p>
-              <div className="text-sm text-[#4B3D8F] mb-4">
-                <p>
-                  <strong>Total Quantity:</strong> {quantity}
-                </p>
-                <p>
-                  <strong>Total Price:</strong>{" "}
-                  {parseFloat(selectedProduct.price.slice(1)) * quantity}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </>
   );
 }
 
-export default ProductList;
+export default Products;
